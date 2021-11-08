@@ -1,0 +1,367 @@
+@charset "UTF-8";
+
+
+/* 디테일   */
+
+.detailView_info .detatil_View {
+	
+  position: relative;
+  background-color: #F6F5F0;
+}
+.ndetailView_info .detatil_View .bg-left {
+  width: 40%;
+  height: 100%;
+  background-color: #F6F5F0;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.detailView_info .detatil_View .bg-right {
+  width: 60%;
+  height: 100%;
+  background-color: #F6F5F0;
+  position: absolute;
+  top: 0;
+  right: 0;
+}
+.detailView_info .detatil_View .inner {
+  height: 600px;
+  z-index: 1;
+  display: flex;
+}
+.detailView_info .detatil_View .inner__left {
+  width: 60%;
+  height: 100%;
+  background-color: #F6F5F0;
+  display: flex;
+}
+.detailView_info .detatil_View .inner__right {
+  width: 40%;
+  height: 100%;
+  justify-content: flex-start;
+
+
+}
+
+.detailView_info .detatil_View .inner__right .detail_right {
+	height: 100px;	
+	
+}
+.detailView_info .detatil_View .inner__right .detail_right .subname {
+  font-size: 14px;
+  font-weight: 300;
+  color: #808080;
+}
+.detailView_info .detatil_View .inner__right .item_name {
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.8em;
+    padding-bottom: 0.3em;
+}
+.detailView_info .detatil_View .inner__right .howmuch {
+	font-weight: 700;
+	font-size: 22px;
+	
+}
+.detailView_info .detatil_View .inner__right .freeDelivery {
+	font-size: 14px;
+    border-top: 1px solid #d4d4d4;
+    border-bottom: 1px solid #d4d4d4;
+	padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1.5rem;
+    justify-content: flex-start;
+    
+}
+.detailView_info .detatil_View .inner__right .green-color {
+    color: #7DAF3B;
+    font-weight: 700;
+    padding-left: .25rem;
+}
+.detailView_info .detatil_View .inner__right{}
+.detailView_info .detatil_View .inner__right{}
+
+
+
+
+
+
+
+/*주문 상세정보*/
+
+
+
+.optionList {
+	font-size: 14px;
+	font-weight: 700;
+	margin-bottom: 1.5rem;
+}
+.madein_prod {
+	padding-bottom: 20px; 
+	margin-bottom: 20px;
+}
+.title {
+	font-size:12px; 
+	color:#555555; 
+	padding: 0 50px 0 0;
+}
+.countOption {
+	--bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    display: flex;
+    flex-wrap: wrap;
+    margin-top: calc(var(--bs-gutter-y) * -1);
+    margin-right: calc(var(--bs-gutter-x) / -2);
+    margin-left: calc(var(--bs-gutter-x) / -2);
+}
+.wantCount {
+	padding: 0 50px 0 0;
+    width: 25%;
+}
+.countSelect {
+	flex: 0 0 auto;
+    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    display: flex;
+}
+.countSelect1 {
+	border-width: 0 !important;
+	background-color: transparent !important;
+}
+.quantity {
+	flex: 0 0 auto;
+    width: 16.6666666667%;
+    text-align: center !important;
+}
+.countSelect2 {
+	border-width: 0 !important;
+	background-color: transparent !important;
+}
+.price_box {
+	background-color: #eeeeee;
+    border-radius: 10px;
+	padding: 1.5rem !important;
+	margin-bottom: 1rem !important;
+	margin-right: .5rem !important;
+    margin-left: .5rem !important;
+    justify-content: space-between !important;
+    display: flex !important;
+}
+.product_price,
+.product_price1 {
+	font-weight: 700;
+}
+.tot_price {
+	margin-bottom: 1.5rem ;
+	margin-right: .5rem ;
+	align-items: baseline ;
+	justify-content: flex-end ;
+	display: flex ;
+}
+.tot_price1 {
+	font-weight: 700;
+	margin-right: 1rem ;
+}
+.tot_price2 {
+	font-weight: 700;
+	font-size: 34px;
+}
+
+.cart_pur {
+	margin-top: 3rem ;
+	justify-content: center ;
+	display: flex ;
+}
+.cart_btn {
+	width: 49%;
+    border-radius: 10px;
+    background-color: #F6F5F0;
+    color: #333;
+    font-weight: 700 ;
+    padding-top: 1rem ;
+    padding-bottom: 1rem ;
+    margin-right: 40px;
+}
+.pur_btn {
+	width: 49%;
+    border-radius: 10px;
+    background-color: #F6F5F0;
+    color: #333;
+    font-weight: 700 ;
+    padding-top: 1rem ;
+    padding-bottom: 1rem ;
+}
+
+.cart_btn:hover,
+.pur_btn:hover {
+	background-color: #333;
+    color: #F6F5F0;
+}
+
+
+.count i {
+    color: #c0c0c0;
+    font-size: 18px;
+}
+.fa, .fas {
+    font-weight: 900;
+}
+
+.fa, .far, .fas {
+    font-family: "Font Awesome 5 Free";
+}
+.fa, .fab, .fad, .fal, .far, .fas {
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+
+.fa-minus-circle:before {
+    content: "\f056";
+}
+
+
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+.fa-plus-circle:before {
+    content: "\f055";
+}
+
+
+
+*, ::after, ::before {
+    box-sizing: border-box;
+}
+
+
+
+
+/*상품설명&리뷰&배송안내 tab*/
+
+label {
+    display: inline-block;
+}
+button, input, optgroup, select, textarea {
+    margin: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+input[type=radio]:checked + .btn-show {
+    border-bottom: 1px solid #F6F5F0;
+    border-top: 3px solid #333;
+    color: #030303;
+    background-color: #F6F5F0;
+}
+.infoTab {
+	border-left: 1px solid #e1e1e1;
+    display: flex ;
+}
+.prod_info,
+.prod_review,
+.delv_info {
+	flex: 0 0 auto;
+    width: 33.3333333333%;
+}
+.prod_info1,
+.prod_review1,
+.delv_info1 {
+	display: none ;
+}
+.prod_info2,
+.prod_review2,
+.delv_info2 {
+	text-align: center ;
+	padding: 1rem ;
+    display: block;
+    border-right: 1px solid #e1e1e1;
+    border-top: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
+    font-size: 18px;
+    color: #707070;
+}
+
+
+/* 상품 설명 tab */
+.info_area {
+	overflow: auto ;
+    display: flex ;
+    justify-content: center;
+	 background-color: #F6F5F0
+}
+.info_area1 {
+	margin-right: auto;
+    margin-left: auto ;
+     background-color: #F6F5F0 
+}
+figure {
+    margin: 0 0 1rem;
+}
+img {
+    vertical-align: middle;
+}
+.h2, h2 {
+    font-size: 36px;
+    font-weight: 700px;
+}
+
+
+/*배송안내 tab*/
+
+
+.delv_area {
+	padding-left: 1rem ;
+	background-color: #F6F5F0
+}
+.delv_area1 {
+	font-weight: 700;
+	font-size: 24px;
+	padding-top: 1rem ;
+    padding-bottom: 1rem ;
+     background-color: #F6F5F0
+}
+.delv_area2 {
+	color: #666666;
+	flex-direction: column ;
+	display: flex;
+}
+.delv_area3 {
+	font-weight: 700;
+	font-size: 16px;
+	 margin-top: 1rem;
+}
+.delv_area4 {
+	font-weight: 700;
+	font-size: 16px;
+}
+.delv_area5 {
+	font-weight: 700;
+	font-size: 16px;
+}
+hr:not([size]) {
+    height: 1px;
+}
+hr {
+    margin: 1rem 0;
+    color: inherit;
+    background-color: currentColor;
+    border: 0;
+    opacity: .25;
+}
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+    font-size: 14px;
+}
+
+
