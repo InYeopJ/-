@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 
 <%@ include file="header.jsp"%>
 
@@ -7,53 +6,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" >
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MatKiT</title>
-<link rel="icon" href="./images/favicon.png"> <!-- title 탭에  파비콘(로고이미지) 띄우기 -->
+<link rel="icon" href="./images/favicon.png">
+<!-- title 탭에  파비콘(로고이미지) 띄우기 -->
 
 <!--브라우저 스타일 초기화-->
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css" >
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reset-css@5.0.1/reset.min.css">
 
 <!-- google font -->
 <link rel="preconnect" href="https://fonts.gstatic.com">
-<link
-	href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap"
-	rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&display=swap" rel="stylesheet">
 <!-- google icon -->
-<link rel="stylesheet"
-	href="https://fonts.googleapis.com/icon?family=Material+Icons">
+<link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 
 
 <!-- css파일 link 연결 -->
-<link rel="stylesheet" href="./css/main.css" >
-<link rel="stylesheet" href="./css/header.css" >
-<link rel="stylesheet" href="./css/footer.css" >
+<link rel="stylesheet" href="./css/main.css">
+<link rel="stylesheet" href="./css/header.css">
+<link rel="stylesheet" href="./css/footer.css">
 
 <!--GSAP & ScrollToPlugin-->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js"
-	integrity="sha512-IQLehpLoVS4fNzl7IfH8Iowfm5+RiMGtHykgZJl9AWMgqx0AmJ6cRWcB+GaGVtIsnC4voMfm8f2vwtY+6oPjpQ=="
-	crossorigin="anonymous"></script>
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollToPlugin.min.js"
-	integrity="sha512-nTHzMQK7lwWt8nL4KF6DhwLHluv6dVq/hNnj2PBN0xMl2KaMm1PM02csx57mmToPAodHmPsipoERRNn4pG7f+Q=="
-	crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/gsap.min.js" integrity="sha512-IQLehpLoVS4fNzl7IfH8Iowfm5+RiMGtHykgZJl9AWMgqx0AmJ6cRWcB+GaGVtIsnC4voMfm8f2vwtY+6oPjpQ==" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.5.1/ScrollToPlugin.min.js" integrity="sha512-nTHzMQK7lwWt8nL4KF6DhwLHluv6dVq/hNnj2PBN0xMl2KaMm1PM02csx57mmToPAodHmPsipoERRNn4pG7f+Q==" crossorigin="anonymous"></script>
 
 <!--Swiper-->
-<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" >
+<link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
 <!--ScrollMagic-->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
 
 <!--Lodash-->
-<script
-	src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js"
-	integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww=="
-	crossorigin="anonymous">
-	</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.20/lodash.min.js" integrity="sha512-90vH1Z83AJY9DmlWa8WkjkV79yfS2n2Oxhsi2dZbIv0nC4E6m5AbH8Nh156kkM7JePmqD6tcZsfad1ueoaovww==" crossorigin="anonymous">
+	
+</script>
 
 <!-- js 파일  -->
 <!-- <script type="text/javascript" src="./js/jquery-3.6.0.min.js"></script> -->
@@ -104,7 +91,7 @@
 						</div>
 					</div>
 					<a href="/communi_notice" class="notice-line__more">
-					<span class="material-icons">add_circle</span>
+						<span class="material-icons">add_circle</span>
 					</a>
 				</div>
 
@@ -126,23 +113,23 @@
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">
-						<img src="./images/pizza_b.jpg" alt="피자" > 
+						<img src="./images/pizza_b.jpg" alt="피자">
 						<a href="/view_pizza" class="btn">자세히 보기</a>
 					</div>
 					<div class="swiper-slide">
-						<img src="./images/tomato_pasta_b.jpg" alt="토마토파스타" > 
+						<img src="./images/tomato_pasta_b.jpg" alt="토마토파스타">
 						<a href="/view_tomatopasta" class="btn">자세히 보기</a>
 					</div>
 					<div class="swiper-slide">
-						<img src="./images/china_tang_b.jpg" alt="탕수육" > 
+						<img src="./images/china_tang_b.jpg" alt="탕수육">
 						<a href="/view_tang" class="btn">자세히 보기</a>
 					</div>
 					<div class="swiper-slide">
-						<img src="./images/kor_bibimbab_b.jpg" alt="비빔밥" > 
+						<img src="./images/kor_bibimbab_b.jpg" alt="비빔밥">
 						<a href="/view_bibimbab" class="btn">자세히 보기</a>
 					</div>
 					<div class="swiper-slide">
-						<img src="./images/kor_fish-cakes_b.jpg" alt="어묵탕" > 
+						<img src="./images/kor_fish-cakes_b.jpg" alt="어묵탕">
 						<a href="/view_fishcakes" class="btn">자세히 보기</a>
 					</div>
 				</div>
@@ -179,10 +166,17 @@
 		<div class="bg-right"></div>
 		<div class="inner">
 
+			<%
+			
+			MemberDTO member = (MemberDTO) session.getAttribute("login");
+			
+			if(member == null) {
+			%>
 			<div class="btn-group">
-				<a href="/join" class="btn btn--reverse">회원가입</a> <a
-					href="/login" class="btn btn--reverse">로그인</a>
+				<a href="/join" class="btn btn--reverse">회원가입</a>
+				<a href="/login" class="btn btn--reverse">로그인</a>
 			</div>
+			<%}%>
 
 		</div>
 	</section>
@@ -196,22 +190,22 @@
 			<div class="swiper-container">
 				<div class="swiper-wrapper">
 					<div class="swiper-slide">
-						<img src="./images/awards_slide1.jpg" alt="대통령 표창" >
+						<img src="./images/awards_slide1.jpg" alt="대통령 표창">
 					</div>
 					<div class="swiper-slide">
-						<img src="./images/awards_slide2.jpg" alt="우수사업주 인증" >
+						<img src="./images/awards_slide2.jpg" alt="우수사업주 인증">
 					</div>
 					<div class="swiper-slide">
-						<img src="./images/awards_slide3.jpg" alt="대한상의회장상" >
+						<img src="./images/awards_slide3.jpg" alt="대한상의회장상">
 					</div>
 					<div class="swiper-slide">
-						<img src="./images/awards_slide4.jpg" alt="기업사회공헌 활동 부문" >
+						<img src="./images/awards_slide4.jpg" alt="기업사회공헌 활동 부문">
 					</div>
 					<div class="swiper-slide">
-						<img src="./images/awards_slide5.jpg" alt="KSI 1위 (5년 연속)" >
+						<img src="./images/awards_slide5.jpg" alt="KSI 1위 (5년 연속)">
 					</div>
 					<div class="swiper-slide">
-						<img src="./images/awards_slide6.jpg" alt="KS-SQI 1위 (5년 연속)" >
+						<img src="./images/awards_slide6.jpg" alt="KS-SQI 1위 (5년 연속)">
 					</div>
 
 
@@ -234,11 +228,11 @@
 	<div id="to-top">
 		<div class="material-icons">arrow_upward</div>
 	</div>
-	
+
 
 	<%@ include file="footer.jsp"%>
-	
 
-	
+
+
 </body>
 </html>

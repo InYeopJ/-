@@ -1,5 +1,7 @@
+<%@page import="com.sboot.matkit.member.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -43,7 +45,10 @@
 
 	<!-- js 파일  -->
   <script defer src="../js/main.js"></script>
-  
+  <!-- 세션 -->
+	<%
+		MemberDTO login = (MemberDTO) session.getAttribute("login");
+	%>
   
 </head>
 <script src="js/jquery-3.5.1.js"></script>
@@ -65,7 +70,7 @@
   
   
   
-  
+  <c var="menuDTO" items="${menuDTO}">
   <section class="detailView_info">
     <div class="detatil_View">
       <div class="bg-left"></div>
@@ -74,15 +79,15 @@
 
         <div class="inner__left">
             <div class="photo_left">
-              	<img src="../images/salad/chicken_salad530.jpg" id="pho_detail" class="pho_detail" alt="치킨샐러드">
+              	<img src="${menuDTO.menu_jpg}" id="pho_detail" class="pho_detail" alt="치킨샐러드">
             </div>
         </div>
           
         <div class="inner__right">
             <div class="detail_right">
             	<span class="sub_name">싱그러운 채소와 부드러운 닭가슴살</span><br>
-            	<span class="item_name" id="item_name">치킨샐러드</span><br>
-            	<span class="howmuch" id="howmuch">6900원</span>
+            	<span class="item_name" id="item_name">${menuDTO.menu_name}</span><br>
+            	<span class="howmuch" id="howmuch">${menuDTO.menu_price}</span>
             </div>
 			<br>
 					
@@ -161,7 +166,7 @@
 					var price = document.getElementById('howmuch').innerText.split("원",1);
 					var cnt = document.getElementById('result').innerText;
 					
-					location.href="../cartProcess.jsp?p_image=" + p_image + "&p_name=" + p_name + "&price=" + price + "&cnt=" + cnt;
+					location.href="../move_to_cart?p_image=" + p_image + "&p_name=" + p_name + "&price=" + price + "&cnt=" + cnt;
 					
 					})	
 			}
@@ -188,13 +193,18 @@
 
 						<!-- 장바구니/바로구매 버튼 -->
 						<div class="cart_pur" style="margin: 40px;">
-
-							<button type="button" class="cart_btn" onclick="goCart(); return false;">장바구니</button>
-							<button type="button" class="pur_btn" onClick="loaction.href=''">바로구매</button>
-
-
-
-
+							<%if(login == null) {%>
+							<script>
+								function getSess() {
+									alert('로그인 후 이용 가능합니다.');
+									location.href='/login';
+								}
+							</script>
+							<button type="button" class="cart_btn" onClick="getSess()">장바구니</button>
+							<%} else {%>
+							<button type="button" class="cart_btn" onClick="goCart()">장바구니</button>
+							<%} %>
+							<!-- <button type="button" class="pur_btn" onClick="loaction.href=''">바로구매</button> -->
 						</div>
 
 					</div>
@@ -206,7 +216,7 @@
       </div>
     </div>
   </section>
- 
+ </c>
  <!-- 상품안내&리뷰&배송안내 tab -->
  <div class="infoTab">
         <label class="prod_info">

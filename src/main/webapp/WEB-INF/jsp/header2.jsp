@@ -31,9 +31,12 @@
 					<li><a href=" <%=login == null ? "/login" : "/logout"%>">
 							<%=login == null ? "로그인" : "로그아웃"%>
 					</a></li>
-					<li><a href="/join">JOIN</a></li>
-					<li><a href="javascript:void(0)">ORDER</a></li>
-					<li><a href="javascript:void(0)">MY PAGE</a></li>
+					<% if (login == null) {%>
+					<li><a href="/join">회원가입</a></li>
+					<%} else {%>
+					<li><a href="/order_check">주문내역</a></li>
+					<li><a href="/cart_in">장바구니</a></li>
+					<%} %>
 				</ul>
 				<br />
 				<p>

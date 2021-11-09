@@ -1,5 +1,7 @@
+<%@page import="com.sboot.matkit.member.MemberDTO"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,7 +26,7 @@
 <!-- fontawesaom icon : 수량 아이콘 -,+ 아이콘   -->
 <script src="https://kit.fontawesome.com/8702da1fc5.js"
 	crossorigin="anonymous"></script>
-	
+
 <!-- css파일 link 연결 -->
 <link rel="stylesheet" href="../css/main.css" />
 <link rel="stylesheet" href="../css/prod_detail.css" />
@@ -62,13 +64,17 @@
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 <script src="js/jquery-3.5.1.js"></script>
 
+<!-- 세션 -->
+	<%
+		MemberDTO login = (MemberDTO) session.getAttribute("login");
+	%>
 </head>
 <script src="js/jquery-3.5.1.js"></script>
 <body>
- <!-- 헤더 -->
- 
-  <jsp:include page ="header2.jsp" flush="true"/>
-  
+	<!-- 헤더 -->
+
+	<jsp:include page="header2.jsp" flush="true" />
+
 	<!-- 	banner -->
 
 	<section class="banner">
@@ -84,7 +90,7 @@
 
 
 
-
+<c var="menuDTO" items="${menuDTO}">
 	<section class="detailView_info">
 		<div class="detatil_View">
 			<div class="bg-left"></div>
@@ -93,7 +99,7 @@
 
 				<div class="inner__left">
 					<div class="photo_left">
-						<img src="../images/kor/kor_bibimbab530.jpg" id="pho_detail"
+						<img src="${menuDTO.menu_jpg}" id="pho_detail"
 							class="pho_detail" alt="테이스티비빔밥세트">
 					</div>
 				</div>
@@ -101,8 +107,8 @@
 				<div class="inner__right">
 					<div class="detail_right">
 						<span class="sub_name">나물이 함께 어우러진 건강한 밥상</span><br> <span
-							class="item_name" id="item_name">테이스티 비빔밥세트</span><br> <span
-							class="howmuch" id="howmuch">13000원</span>
+							class="item_name" id="item_name" name="item_name">${menuDTO.menu_name}</span><br>
+							<span class="howmuch" id="howmuch" name="howmuch">${menuDTO.menu_price}</span>
 					</div>
 					<br>
 					<!-- 무료배송 알림 -->
@@ -132,8 +138,8 @@
 							<div class="wantCount">수량</div>
 							<div class="countSelect count ">
 								<input type='button' onclick='count("minus")' value='-' /> <span
-									id='result' class="quantity">1</span> <input type='button'
-									onclick='count("plus")' value='+' />
+									id='result' name='result' class="quantity">1</span> <input
+									type='button' onclick='count("plus")' value='+' />
 							</div>
 						</div>
 
@@ -184,16 +190,12 @@
 					var cnt = document.getElementById('result').innerText;
 					
 					
-					location.href="../cartProcess.jsp?p_image=" + p_image + "&p_name=" + p_name + "&price=" + price + "&cnt=" + cnt;
+					location.href="../move_to_cart?p_image=" + p_image + "&p_name=" + p_name + "&price=" + price + "&cnt=" + cnt;
 					
 					
 					})	
 			}
 				
-				function fnView() {
-					
-						location.href = "../cart_in.jsp";
-				}
 			
 				</script>
 
@@ -218,8 +220,18 @@
 
 						<!-- 장바구니/바로구매 버튼 -->
 						<div class="cart_pur" style="margin: 40px;">
-							<button type="button" class="cart_btn" onclick="goCart()">장바구니</button>
-							<button type="button" class="pur_btn" onClick="loaction.href=''">바로구매</button>
+							<%if(login == null) {%>
+							<script>
+								function getSess() {
+									alert('로그인 후 이용 가능합니다.');
+									location.href='/login';
+								}
+							</script>
+							<button type="button" class="cart_btn" onClick="getSess()">장바구니</button>
+							<%} else {%>
+							<button type="button" class="cart_btn" onClick="goCart()">장바구니</button>
+							<%} %>
+							<!-- <button type="button" class="pur_btn" onClick="loaction.href=''">바로구매</button> -->
 						</div>
 
 					</div>
@@ -231,6 +243,7 @@
 			</div>
 		</div>
 	</section>
+	</c>
 
 	<!-- 상품안내&리뷰&배송안내 tab -->
 	<div class="infoTab">
@@ -335,14 +348,14 @@
 		</div>
 	</section>
 
-    <!-- footer  -->
-  <jsp:include page ="footer2.jsp" flush="true"/>
+	<!-- footer  -->
+	<jsp:include page="footer2.jsp" flush="true" />
 
 
-  <!--TO TOP BUTTON-->
-  <div id="to-top">
-    <div class="material-icons">arrow_upward</div>
-  </div>
+	<!--TO TOP BUTTON-->
+	<div id="to-top">
+		<div class="material-icons">arrow_upward</div>
+	</div>
 
 </body>
-</html>		
+</html>

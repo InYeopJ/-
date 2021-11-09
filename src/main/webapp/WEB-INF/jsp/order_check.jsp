@@ -1,5 +1,14 @@
+<%@page import="java.text.DecimalFormat"%>
+<%@page import="java.util.ArrayList"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
+
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -31,7 +40,7 @@
 <link rel="stylesheet" href="./css/main.css" />
 <link rel="stylesheet" href="./css/footer.css" />
 <link rel="stylesheet" href="./css/header.css" />
-<link rel="stylesheet" href="./css/login_join.css" />
+<link rel="stylesheet" href="./css/cartIn.css" />
 
 <!--GSAP & ScrollToPlugin-->
 <script
@@ -61,6 +70,7 @@
 <!-- js 파일  -->
 <script defer src="./js/main.js"></script>
 
+<script src="js/jquery-3.5.1.js"></script>
 
 </head>
 <body>
@@ -75,11 +85,13 @@
 
 	<div class="sub_tit_wrap">
 		<div class="sub_tit_inner">
-
+			<h2>주문내역</h2>
 			<ul class="smap">
 				<li><a href="/"><img src="./images/home.png" alt="홈으로"></a></li>
 				<li><img class="arrow" src="./images/next9_11.png" alt="하위메뉴"></li>
-				<li><a href="/join" class="this">JOIN</a></li>
+				<li class="en">MY ORDER</li>
+				<li><img class="arrow" src="./images/next9_11.png" alt="하위메뉴"></li>
+				<li><a href="#" class="this">주문내역</a></li>
 			</ul>
 		</div>
 	</div>
@@ -87,62 +99,57 @@
 	<!-- 서브타이틀 끝 -->
 
 
-	<div id="container" class="joinArea">
 
-		<form action="/join" method="POST">
-			<h5 class="page_title1">JOIN</h5>
-			
-			<label for="id">아이디</label>
-			<div id="idBox" class="box">
-				<input type="text" id="id" name="id" class="input">
-			</div>
+	<!-- 장바구니 -->
+	<div id="container">
+		<div class="cart_wrap">
+			<table class="cart_tb" border="0" align="center"
+				style="margin-top: 50px;">
+				<tr>
+					<td id="title" colspan="8" align="left">주문상품</td>
+				</tr>
+				<tr>
+					<td colspan="8" align="left"></td>
+				</tr>
 
+				<tr align="center" id="title" class="menu">
+					<td width=20%>이미지</td>
+					<td width=20%>상품명</td>
+					<td width=20%>가격</td>
+					<td width=10%>수량</td>
+					<td width=10%>합계</td>
+					<td width=30%>날짜</td>
 
+					<c:choose>
+						<c:when test="${order_list == null}">
+							<tr>
+								<td colspan="7" align="center">주문내역이 없습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="order" items="${order_list}">
+								<tr align="center" id='table'>
+									<td width="20%"><img src="${order.order_jpg}" width='90'></td>
+									<td width="20%" name="p_name" class="cart_cont">${order.order_name}</td>
+									<td width="20%" name="price" class="cart_cont">${order.order_price}</td>
+									<td width="10%" name="cnt" class="cart_cont">${order.order_cnt}</td>
+									<td width="10%" name="total" class="cart_cont">${order.order_total}</td>
+									<td width="30%" name="date" class="cart_cont">${order.order_date}</td>
 
-			<label for="pwd">비밀번호</label>
-			<div id="pwdBox" class="box">
-				<input type="password" id="passwd" name="passwd" class="input">
-			</div>
-			
-			<label for="pwdch">비밀번호확인</label>
-			<div id="pwdchBox" class="box">
-				<input type="password" id="passwdch" name="passwdch" class="input">
-			</div>
-
-
-			<label for="name">이름</label>
-			<div id="nameBox" class="box">
-				<input type="text" id="name" name="name" class="input">
-			</div>
-
-			<label for="birthday">생년월일</label>
-			<div id="birthday" class="box">
-				<input type="text" name="birthday" placeholder="19900814	"
-				class="input">
-			</div>
-
-			<label for="email">본인 확인 이메일</label>
-			<div id="email" class="box">
-				<input type="text" name="email" placeholder="example@gmail.com"
-					class="input">
-			</div>
-
-
-			<label for="address">주소</label>
-			<div id="address" class="box">
-				<input type="text" name="address" placeholder="주소 입력" class="input">
-			</div>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
+			</table>
 
 
-			<label for="phone">전화번호</label>
-			<div id="phoneBox" class="box">
-				<input type="text" id="hp" name="hp" class="input"
-					placeholder="'-' 없이 숫자만 입력">
-			</div>
 
-			<input type="submit" id="signin" value="가입하기">
-		</form>
+		</div>
+
 	</div>
+	<!-- container 끝 -->
+	<!-- 공지사항 end -->
+
 
 
 
@@ -188,14 +195,15 @@
 
 
 
-
 	<!-- footer  -->
 	<jsp:include page="footer.jsp" flush="true" />
+
 
 	<!--TO TOP BUTTON-->
 	<div id="to-top">
 		<div class="material-icons">arrow_upward</div>
 	</div>
+
 
 
 </body>
