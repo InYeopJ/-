@@ -43,7 +43,6 @@
 </script>
 
 <!-- js 파일  -->
-<!-- <script type="text/javascript" src="./js/jquery-3.6.0.min.js"></script> -->
 <script defer src="./js/main.js"></script>
 
 </head>
@@ -176,7 +175,7 @@
 				<a href="/join" class="btn btn--reverse">회원가입</a>
 				<a href="/login" class="btn btn--reverse">로그인</a>
 			</div>
-			<%}%>
+			<% } %>
 
 		</div>
 	</section>

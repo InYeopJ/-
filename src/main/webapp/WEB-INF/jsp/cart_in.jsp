@@ -116,24 +116,25 @@
 					<td width=30%>삭제</td>
 
 					<c:choose>
-						<c:when test="${cart_list.isEmpty()}">
+						<c:when test="${cart_list.isEmpty()}"> <!-- 세션 cart_list 가 비어있는지 JSTL 변수로 확인 -->
 							<tr>
 								<td colspan="7" align="center">장바구니가 비어있습니다</td>
 							</tr>
 						</c:when>
-						<c:otherwise>
-							<c:forEach var="cart" items="${cart_list}">
-								<tr align="center" id='table'>
+						<c:otherwise> <!-- 세션 cart_list 에 값이 들어잇으면 -->
+							<c:forEach var="cart" items="${cart_list}"> <!-- 값 개수만큼 반복해서 테이블에 행 추가 -->
+								<tr align="center" id='table'> <!-- 각 행에 들어갈 데이터 출력 -->
 									<%-- <td id="count">${status.count}</td> --%>
-									<td width="20%"><img src="${cart.cart_jpg}" width='90'></td>
-									<td width="20%" name="p_name" class="cart_cont">${cart.cart_name}</td>
-									<td width="20%" name="price" class="cart_cont">${cart.cart_price}</td>
+									<td width="20%"><img src="${cart.cart_jpg}" width='90'></td> <!-- 상품 이미지 -->
+									<td width="20%" name="p_name" class="cart_cont">${cart.cart_name}</td> <!-- 상품 이름 -->
+									<td width="20%" name="price" class="cart_cont">${cart.cart_price}</td><!-- 상품 가격 -->
 									<td width="10%" name="cnt" class="cart_cont">${cart.cart_cnt}</td>
 									<c:set var="one_total" value="${cart.cart_price * cart.cart_cnt}" />
 									<td width="10%" name="one_total" class="cart_cont">${one_total}</td>
 									<td width="30%" class="cart_cont">
-										<form action="/remove_cart_item" method="POST">
+										<form action="/remove_cart_item" method="POST"><!-- 상품 이름을 해당 url 로 post 방식으로 넘겨줌 -->
 											<input type="hidden" name="cart_name_for_delete" value="${cart.cart_name}">
+											<!-- 이쪽에서 넘겨주는 데이터를 컨트롤러에서 받아 삭제 버튼이 눌린 행의 상품이 세션 cart_list 에서 삭제됨-->
 											<input type="submit" value="삭제">
 										</form>
 									</td>
@@ -187,11 +188,14 @@
 								<input type="text" id="address" class="input" name="address" required />
 							</div>
 							
-							<div class="box">총 금액:${all_total}
+							<div class="box">
+								<label for="price">총 금액:${all_total}</label><br><br>
+								<input type="hidden" value="${all_total}" name="totalPrice">
 								<input type="submit" value="결제하기">
 								<input type="button" value="홈으로 가기" onclick="goHome()">
 							</div>
 							
+						<br><br>
 						</td>
 					</tr>
 

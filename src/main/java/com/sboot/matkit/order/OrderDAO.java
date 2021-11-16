@@ -27,7 +27,9 @@ public class OrderDAO {
 
 	// 주문내역 목록
 	public List<OrderDTO> get_order_list(String email) {
-		List<OrderDTO> result_list = jdbcTemplate.query(
+		List<OrderDTO> result_list = jdbcTemplate.query( // order_no 역순 정렬
+				// 최신 아이템 가져오는 느낌으로다가
+				// 예아
 				"select * from matkit_order where order_email = '" + email + "' order by order_no desc;",
 				(rs, rowNum) -> {
 					OrderDTO orderDTO = new OrderDTO(rs.getInt("order_no"), rs.getString("order_jpg"),

@@ -32,10 +32,10 @@
 					<li><a href=" <%=login == null ? "/login" : "/logout"%>">
 							<%=login == null ? "로그인" : "로그아웃"%>
 					</a></li>
-					<% if (login == null) {%>
-					<li><a href="/join">회원가입</a></li>
-					<%} else {%>
-					<li><a href="/order_check">주문내역</a></li>
+					<% if (login == null) {%> <!-- 로그인된 사용자가 없다면 -->
+					<li><a href="/join">회원가입</a></li> <!-- 회원가입 활성화 -->
+					<%} else {%> <!-- 로그인한 사용자가 있다면 -->
+					<li><a href="/order_check">주문내역</a></li> <!-- 주문내역과 장바구 활성화 -->
 					<li><a href="/cart_in">장바구니</a></li>
 					<%} %>
 				</ul>

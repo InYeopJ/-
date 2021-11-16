@@ -150,15 +150,17 @@
 					  var number2 = resultElement2.innerText;
 					  var number3 = resultElement3.innerText;
 					  
-					  // 더하기/빼기
+					// 더하기/빼기
 					  if(type === 'plus') {
 					    number1 = parseInt(number1) + 1;
 					    number2 = parseInt(number2) + 8900;
 					    number3 = parseInt(number3) + 8900;
 					  }else if(type === 'minus')  {
-					    number1 = parseInt(number1) - 1;
-					    number2 = parseInt(number2) - 8900;
-					    number3 = parseInt(number3) - 8900;
+						  if(number1 > 1){
+							  number1 = parseInt(number1) - 1;
+							  number2 = parseInt(number2) - 8900;
+							  number3 = parseInt(number3) - 8900;
+						  }
 					  }
 					  
 					  // 결과 출력

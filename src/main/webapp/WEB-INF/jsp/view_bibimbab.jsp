@@ -162,9 +162,11 @@
 					    number2 = parseInt(number2) + 13000;
 					    number3 = parseInt(number3) + 13000;
 					  }else if(type === 'minus')  {
-					    number1 = parseInt(number1) - 1;
-					    number2 = parseInt(number2) - 13000;
-					    number3 = parseInt(number3) - 13000;
+						  if(number1 > 1){
+							  number1 = parseInt(number1) - 1;
+							  number2 = parseInt(number2) - 13000;
+							  number3 = parseInt(number3) - 13000;
+						  }
 					  }
 					  
 					  // 결과 출력
@@ -231,7 +233,6 @@
 							<%} else {%>
 							<button type="button" class="cart_btn" onClick="goCart()">장바구니</button>
 							<%} %>
-							<!-- <button type="button" class="pur_btn" onClick="loaction.href=''">바로구매</button> -->
 						</div>
 
 					</div>

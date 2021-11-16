@@ -20,7 +20,7 @@ import com.sboot.matkit.menu.*;
 import com.sboot.matkit.order.*;
 
 @Controller
-public class TestController {
+public class MatkitController {
 
 	@Autowired
 	MemberDAO memberDAO;
@@ -41,10 +41,13 @@ public class TestController {
 	public String logout(final HttpSession session) {
 		if (session.getAttribute("login") != null)
 			session.removeAttribute("login");
+		// login 이란 이름의 세션값이 있으면 삭제
 
 		session.invalidate();
+		// 모든 세션값 해제
 
 		return "redirect:/";
+		// 세션 해제 후 메인 페이지 이동
 	}
 
 //	=======================================
@@ -58,6 +61,7 @@ public class TestController {
 	// 로그인 설정
 	@PostMapping("/login")
 	public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
+		
 		try {
 			HttpSession session = request.getSession(true);
 
@@ -89,6 +93,9 @@ public class TestController {
 	@PostMapping(value = "/join")
 	public void join(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		try {
+			// 로그인 때와 마찬가지로 join.jsp 에서 넘겨준 데이터를
+			// HttpServeltRequest 로 받아 각각의 값을 저장
+			
 			String id = request.getParameter("id");
 			String passwd = request.getParameter("passwd");
 			String passwdch = request.getParameter("passwdch");
@@ -98,20 +105,27 @@ public class TestController {
 			String address = request.getParameter("address");
 			String hp = request.getParameter("hp");
 
-			// 입력받은 아이디 가지고 회원을 검색해보기
-			// 검색해서 있으면 throw new Exception
-			// 회원 없다고 반환되면 그 때 비밀번호 체크해도 됨 (passwd.equals(passwdch))
+			// 입력받은 아이디 가지고 회원을 검색
+			// 검색해서 있으면 throw new Exception -- >경고 메시지 띄운 후 각자 다른 곳으로 이동
+			
+			// 회원 없다고 반환되면 비밀번호 체크 (passwd.equals(passwdch))
 
+			
+			//받은 데이터로 memberdto 객체 생성
 			MemberDTO memberDTO = new MemberDTO(id, passwd, name, birthday, email, address, hp);
 
+			// 비밀번호와 확인 비밀번호가 같으면
 			if (passwd.equals(passwdch))
+				// 회원가입 쿼리문 실행
 				memberDTO = memberDAO.insertMember(memberDTO);
-			else
+			else // 비밀번호 다르면
 				throw new NotMatchingException("확인 비밀번호와 맞지 않습니다.");
+			// 경고 메시지 출력
 
-			if (memberDAO.select_Id(id) == null) {////////////////////////////////////////////////////////
+			if (memberDAO.select_Id(id) == null) { // 해당 아이디를 사용하는 계정이 있다면
 				throw new AlreadyExistingException("이미 존재하는 계정입니다.");
-			} else {
+				// 메시지 출력
+			} else { // 없으면 한 번 입력받은 데이터 확인한 후 로그인 페이지로 이동
 				System.out.println(memberDTO.toString());
 
 				response.sendRedirect("/login");
@@ -203,8 +217,12 @@ public class TestController {
 	// 한식 메뉴 상세정보_어묵탕, 비빔밥, 순대국, 떡갈비
 	@RequestMapping("/view_fishcakes")
 	public String view_fishcakes(Model model) {
+		// 메뉴의 이름으로 해당 메뉴의 데이터를 DB에서 가지고 옴
+		// menuDTO 객체를 생성
 		MenuDTO menuDTO = menuDAO.get_menu_item("모듬 어묵탕 550g");
 
+		
+		// model 의 addAttribute 함수로 menuDTO 이름으로 데이터 저장
 		model.addAttribute("menuDTO", menuDTO);
 
 		return "view_fishcakes";
@@ -212,6 +230,7 @@ public class TestController {
 
 	@RequestMapping("/view_bibimbab")
 	public String view_bibimbab(Model model) {
+		// 이하 동문
 		MenuDTO menuDTO = menuDAO.get_menu_item("테이스티 비빔밥 세트");
 
 		model.addAttribute("menuDTO", menuDTO);
@@ -365,14 +384,21 @@ public class TestController {
 
 		return "view_fruitsalad";
 	}
+	
+//	=======================================	
 
-	// 장바구니로 넣어줌
+	//장바구니
+	// 장바구니 담기
 	@GetMapping(value = "/move_to_cart")
 	public void move_to_cart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession(true);
+		//세션 있는지 확인
 
-		List<CartDTO> cart_list = (List<CartDTO>) session.getAttribute("cart_list");
+		List<CartDTO> cart_list = (List<CartDTO>) session.getAttribute("cart_list"); // Object 타입이므로 다운캐스팅
+		// 세션 중 cart_list 의 세션값 가져옴
+		// List<CartDTO> 형식으로 세션값 저장
 
+		// JSP 의 데이터 받아옴
 		String p_image = request.getParameter("p_image");
 		String p_name = request.getParameter("p_name");
 		String price = request.getParameter("price");
@@ -382,102 +408,152 @@ public class TestController {
 
 		System.out.println("p_image" + p_image + "p_name: " + p_name + ", price: " + int_price + ", cnt: " + cnt);
 
+		// 만약 cart_list 라는 세션이 존재하지 않으면
 		if (cart_list == null) {
 			cart_list = new ArrayList<CartDTO>();
+			// 새롭게 ArrayList 를 만들어줌!
 		}
 
 		CartDTO cartDTO = new CartDTO(p_image, p_name, int_price, Integer.parseInt(cnt));
 
+		// 새롭게 만들어지거나 원래 있었던 cart_list 에
+		// 새로운 상품 담기
 		cart_list.add(cartDTO);
 
+		// 새로운 상품을 닫았으니 세션 업데이트
 		session.setAttribute("cart_list", cart_list);
 
 		response.sendRedirect("/cart_in");
+		
+		// 이 함수는 상품을 장바구니로 옮기는 작업을 한다.
 	}
 
+
+	// 장바구니 페이지 연결
 	@RequestMapping(value = "/cart_in", method = RequestMethod.GET)
 	public String cart_in(HttpSession session, Model model) throws Exception {
 		List<CartDTO> cart_list = (List<CartDTO>) session.getAttribute("cart_list");
+		// move_to_cart 를 실행해서 cart_list 라는 세션이 생성
 
 		if (cart_list == null) {
 			cart_list = new ArrayList<CartDTO>();
 		}
+		// 로그인값 없이 장바구니 접근시 예외처리
 		
 		model.addAttribute("cart_list", cart_list);
+		// model 로 값 넘겨준다
 
 		return "cart_in";
 	}
 
+//	=======================================	
+
+	//결제
+	//페이지연결
 	@PostMapping(value = "/pay")
 	public String pay() {
 		return "pay";
 	}
 
+	// 결제가 성곡적으로 완료 되었을시 처리
 	@GetMapping(value = "/pay_success")
 	public void pay_success(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws Exception {
+		// 결제성공
 		List<CartDTO> cart_list = (List<CartDTO>) session.getAttribute("cart_list");
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
+		// 로그인된 사용자와, 사용자가 끌고 있던 카트 안의 상품 가져옴
 
 		OrderDTO orderDTO = null;
 
 		for (CartDTO cart_item : cart_list) {
+			// cart_list 안에 있는 상품들 각각 취급
 			int order_total = cart_item.getCart_cnt() * cart_item.getCart_price();
+			// 총 금액은 개수 * 가격
+			
 			orderDTO = new OrderDTO(cart_item.getCart_jpg(), cart_item.getCart_name(), member.getEmail(),
 					cart_item.getCart_price(), cart_item.getCart_cnt(), order_total);
+			// 주문내역에 추가할 객체 생성
+			
 			orderDAO.insert_order(orderDTO);
-		}
+			// 주문내역에 추가
+		} // 각각의 상품을 다 주문내역에 추가하려는 작업 반복중
 
-		System.out.println("success");
+		System.out.println("success"); // 확인용
 
 		session.removeAttribute("cart_list");
+		// 주문내역에 다 추가가 되었으니 이제 카트는 쓸모없어진다.
+		// 그러니 세션에서 삭제
 
 		response.sendRedirect("/");
 	}
 
+	
+	// 결제가 실패했을시 처리
 	@GetMapping(value = "/pay_fail")
 	public void pay_fail(HttpServletResponse response) throws Exception {
 		System.out.println("fail");
 
 		response.sendRedirect("/cart_in");
+		// 어떠한 이유에서든 결제가 실패할 경우
 	}
 
+//	=======================================	
+	
+	// 주문내역 확인 페이지 연결
 	@RequestMapping(value = "/order_check", method = RequestMethod.GET)
 	public String order_check(HttpSession session, Model model) {
+		// 위와 비슷하게도 로그인한 사용자 있는지 확인해서
+		// 있으면 해당 '이메일'을 가진 사람이 가져온 카트의 품목 겟
 		MemberDTO member = (MemberDTO) session.getAttribute("login");
 
 		List<OrderDTO> order_list = orderDAO.get_order_list(member.getEmail());
 
+		// model 로 뿌려주기
 		model.addAttribute("order_list", order_list);
 
 		return "order_check";
 	}
 
+	
+//	=======================================
+	
+	// 장바구니 상품 삭제
 	@PostMapping(value = "/remove_cart_item")
 	public void remove_cart_item(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws Exception {
 		String cart_name_for_delete = request.getParameter("cart_name_for_delete");
+		// 카트에 담은 품목 중 없애려는 품목의 이름을 가져옴
 		List<CartDTO> cart_list = (List<CartDTO>) session.getAttribute("cart_list");
+		// 카트에 담은 모든 품목 가져오기
 
-		for (CartDTO cart_item : cart_list) {
+		for (CartDTO cart_item : cart_list) { // 모든 품목과 내가 없애려는 품목의 VS
 			if (cart_item.getCart_name().equals(cart_name_for_delete)) {
+				// 모든 품목의 제목 보다가 내가 DB에 저장한 품목의 이름과 같다면
 				cart_list.remove(cart_item);
+				// 리스트에서 없앤다.
 				break;
 			}
 		}
 
+		// 업데이트된 리스트를 새로 세션값으로 저장
 		session.setAttribute("cart_list", cart_list);
 
 		response.sendRedirect("/cart_in");
 	}
 	
+	
+	// 장바구니 비우기
 	@GetMapping(value = "/remove_cart")
 	public void remove_cart(HttpServletRequest request, HttpServletResponse response, HttpSession session)
 			throws Exception {
+		// 카트에 담은 모든 품목 가져오기
 		List<CartDTO> cart_list = (List<CartDTO>) session.getAttribute("cart_list");
 
+		// 모두 삭제해버려
 		cart_list.removeAll(cart_list);
 
+		// 업데이트되었으니 다시 저장해
 		session.setAttribute("cart_list", cart_list);
 
 		response.sendRedirect("/cart_in");

@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.*"%>
 
 <!DOCTYPE html>
@@ -8,11 +7,9 @@
 <meta charset="UTF-8">
 <title>pay</title>
 
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-<script type="text/javascript"
-	src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
-	<%
+<script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.1.5.js"></script>
+<%
 request.setCharacterEncoding("utf-8");
 //   String name = (String)request.getAttribute("name");
 //   String email = (String)request.getAttribute("email");
@@ -21,12 +18,11 @@ request.setCharacterEncoding("utf-8");
 //  int totalPrice = (int)request.getAttribute("totalPrice");
 String name = (String) request.getParameter("name");
 String email = (String) request.getParameter("email");
-String phone = (String) request.getParameter("phone");
+String phone = (String) request.getParameter("hp");
 String address = (String) request.getParameter("address");
 String stotalPrice = (String) request.getParameter("totalPrice");
 /*      String p_name = (String)request.getParameter("p_name"); */
 int totalPrice = Integer.parseInt(stotalPrice);
-
 System.out.println("name: " + name);
 System.out.println("email: " + email);
 System.out.println("phone: " + phone);
@@ -61,11 +57,11 @@ System.out.println("totalPrice: " + totalPrice);
 				jQuery.ajax({
 					url : "/pay", //cross-domain error가 발생하지 않도록 주의해주세요
 					type : 'POST',
-					dataType : 'json',
-					data : {
-						imp_uid : rsp.imp_uid
+					dataType : 'json'
+					//data : {
+					//	imp_uid : rsp.imp_uid
 					//기타 필요한 데이터가 있으면 추가 전달
-					}
+					//}
 				}).done(function(data) {
 					//[2] 서버에서 REST API로 결제정보확인 및 서비스루틴이 정상적인 경우
 					if (everythings_fine) {
@@ -80,12 +76,12 @@ System.out.println("totalPrice: " + totalPrice);
 						//[4] 결제된 금액이 요청한 금액과 달라 결제를 자동취소처리하였습니다.
 					}
 				});
-				location.href='<%=request.getContextPath()%>/pay_success';
+				location.href='/pay_success';
 			} else {
 				// 결제에 실패시
 				var msg = '결제에 실패';
 				msg += '에러내용 : ' + rsp.error_msg;
-				location.href='<%=request.getContextPath()%>/pay_fail';
+				location.href='/pay_fail';
 									alert(msg);
 								}
 							});

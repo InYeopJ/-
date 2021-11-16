@@ -132,15 +132,17 @@
 					  var number2 = resultElement2.innerText;
 					  var number3 = resultElement3.innerText;
 					  
-					  // 더하기/빼기
+					// 더하기/빼기
 					  if(type === 'plus') {
 					    number1 = parseInt(number1) + 1;
-					    number2 = parseInt(number2) + 14700;
-					    number3 = parseInt(number3) + 14700;
+					    number2 = parseInt(number2) + 14900;
+					    number3 = parseInt(number3) + 14900;
 					  }else if(type === 'minus')  {
-					    number1 = parseInt(number1) - 1;
-					    number2 = parseInt(number2) - 14700;
-					    number3 = parseInt(number3) - 14700;
+						  if(number1 > 1){
+							  number1 = parseInt(number1) - 1;
+							  number2 = parseInt(number2) - 14900;
+							  number3 = parseInt(number3) - 14900;
+						  }
 					  }
 					  
 					  // 결과 출력
