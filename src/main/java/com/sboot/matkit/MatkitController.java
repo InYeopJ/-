@@ -2,6 +2,7 @@ package com.sboot.matkit;
 
 import java.io.*;
 import java.util.*;
+import java.util.regex.*;
 
 import javax.servlet.http.*;
 
@@ -15,12 +16,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.sboot.matkit.exception.AlreadyExistingException;
 import com.sboot.matkit.exception.NotMatchingException;
+import com.sboot.matkit.exception.PassWCheckException;
+import com.sboot.matkit.exception.PhoneCheckException;
 import com.sboot.matkit.member.*;
 import com.sboot.matkit.menu.*;
 import com.sboot.matkit.order.*;
 
 @Controller
 public class MatkitController {
+//	private static final Pattern PASSWD = Pattern
+//			.compile("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[~!@#$%^&*])[A-Za-z[0-9]~!@#$%^&*]{8,20}$");
+//	// 비밀번호 체크를 위한 정규식
+//	
+//	private static final Pattern PHONE = Pattern.compile("^[0-9]{9,11}$");
+//	// 전화번호 체크를 위한 정규식
 
 	@Autowired
 	MemberDAO memberDAO;
@@ -61,7 +70,7 @@ public class MatkitController {
 	// 로그인 설정
 	@PostMapping("/login")
 	public void login(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		
+
 		try {
 			HttpSession session = request.getSession(true);
 
@@ -82,7 +91,14 @@ public class MatkitController {
 	}
 
 //	=======================================
-
+	
+	private static final Pattern PASSWD = Pattern
+			.compile("^(?=.*[A-Za-z])(?=.*[0-9])(?=.*[~!@#$%^&*])[A-Za-z[0-9]~!@#$%^&*]{8,20}$");
+	// 비밀번호 체크를 위한 정규식
+	
+	private static final Pattern PHONE = Pattern.compile("^[0-9]{9,11}$");
+	// 전화번호 체크를 위한 정규식
+	
 	// 회원가입
 	@RequestMapping("/join")
 	public String join() {
@@ -95,55 +111,90 @@ public class MatkitController {
 		try {
 			// 로그인 때와 마찬가지로 join.jsp 에서 넘겨준 데이터를
 			// HttpServeltRequest 로 받아 각각의 값을 저장
-			
-			String id = request.getParameter("id");
+
+			// String id = request.getParameter("id");
+			String email = request.getParameter("email");
 			String passwd = request.getParameter("passwd");
 			String passwdch = request.getParameter("passwdch");
 			String name = request.getParameter("name");
 			String birthday = request.getParameter("birthday");
-			String email = request.getParameter("email");
 			String address = request.getParameter("address");
 			String hp = request.getParameter("hp");
 
-			// 입력받은 아이디 가지고 회원을 검색
-			// 검색해서 있으면 throw new Exception -- >경고 메시지 띄운 후 각자 다른 곳으로 이동
-			
-			// 회원 없다고 반환되면 비밀번호 체크 (passwd.equals(passwdch))
+
+			// 받은 데이터로 memberdto 객체 생성
+			MemberDTO memberDTO = new MemberDTO(email, passwd, name, birthday, address, hp);
 
 			
-			//받은 데이터로 memberdto 객체 생성
-			MemberDTO memberDTO = new MemberDTO(id, passwd, name, birthday, email, address, hp);
+			if (PASSWD.matcher(passwd).matches()) { 
+				// 정규식을 통한 비밀번호 형식 지정
+				// (영문+숫자+특수문자) 포함 최소 8자리 에서 최대 20자리까지 가능
+				// 특수문자 전체를 나타내는 정규식 대신 ' ~ ' 부터 ' * ' 까지로 지정
+				if (passwd.equals(passwdch)) {
+					// 입력한 비밀번호와 비밀번호확인이 같은지?
+					if(PHONE.matcher(hp).matches()) { 
+						// 정규식을 통한 전화번호 길이 제한
+						// 전화번호에 숫자만 가능
+						// 최소 9자리에서 최대 11자리까지 가능
+						
+						// 회원가입 쿼리문 실행
+						if (memberDAO.select_Id(email) != null) { // 해당 아이디를 사용하는 계정이 있다면
+							throw new AlreadyExistingException("이미 존재하는 계정입니다.");
+							// 메시지 출력
+						} else { // 없으면 한 번 입력받은 데이터 확인한 후 로그인 페이지로 이동
+							System.out.println(memberDTO.toString());
 
-			// 비밀번호와 확인 비밀번호가 같으면
-			if (passwd.equals(passwdch))
-				// 회원가입 쿼리문 실행
-				memberDTO = memberDAO.insertMember(memberDTO);
-			else // 비밀번호 다르면
-				throw new NotMatchingException("확인 비밀번호와 맞지 않습니다.");
-			// 경고 메시지 출력
+							memberDTO = memberDAO.insertMember(memberDTO);
 
-			if (memberDAO.select_Id(id) == null) { // 해당 아이디를 사용하는 계정이 있다면
-				throw new AlreadyExistingException("이미 존재하는 계정입니다.");
-				// 메시지 출력
-			} else { // 없으면 한 번 입력받은 데이터 확인한 후 로그인 페이지로 이동
-				System.out.println(memberDTO.toString());
-
-				response.sendRedirect("/login");
-			}
-		} catch (NotMatchingException ex) {
+							response.sendRedirect("/login");
+						}
+					}
+					else {
+						throw new PhoneCheckException("전화번호를 다시 확인해주세요.");
+						// 경고 메시지 출력
+					}
+				} 
+				else {
+					throw new NotMatchingException("확인 비밀번호가 일치하지 않습니다.");
+					// 경고 메시지 출력
+				}
+			} 
+			else
+				throw new PassWCheckException("비밀번호는 영문, 숫자, 특수문자를 포함해야 합니다.");
+		} 
+		catch (PassWCheckException ex) {
 			response.setContentType("text/html; charset=UTF-8");
 
 			PrintWriter out = response.getWriter();
 
-			out.println("<script>alert('확인 비밀번호와 맞지 않습니다.'); location.href='/join';</script>");
+			out.println("<script>alert('비밀번호를 다시 확인해 주세요.비밀번호는 영문+숫자+특수문자 포함 8~20자리'); location.href='/join';</script>");
 
 			out.flush();
-		} catch (AlreadyExistingException ex) {
+		} 
+		catch (AlreadyExistingException ex) {
 			response.setContentType("text/html; charset=UTF-8");
 
 			PrintWriter out = response.getWriter();
 
 			out.println("<script>alert('이미 존재하는 계정입니다.'); location.href='/join';</script>");
+
+			out.flush();
+		}
+		catch (NotMatchingException ex) {
+			response.setContentType("text/html; charset=UTF-8");
+
+			PrintWriter out = response.getWriter();
+
+			out.println("<script>alert('확인 비밀번호가 일치하지 않습니다.'); location.href='/join';</script>");
+
+			out.flush();
+		}
+		catch (PhoneCheckException ex) {
+			response.setContentType("text/html; charset=UTF-8");
+
+			PrintWriter out = response.getWriter();
+
+			out.println("<script>alert('전화번호를 다시 확인해주세요.'); location.href='/join';</script>");
 
 			out.flush();
 		}
@@ -221,7 +272,6 @@ public class MatkitController {
 		// menuDTO 객체를 생성
 		MenuDTO menuDTO = menuDAO.get_menu_item("모듬 어묵탕 550g");
 
-		
 		// model 의 addAttribute 함수로 menuDTO 이름으로 데이터 저장
 		model.addAttribute("menuDTO", menuDTO);
 
@@ -384,15 +434,15 @@ public class MatkitController {
 
 		return "view_fruitsalad";
 	}
-	
+
 //	=======================================	
 
-	//장바구니
+	// 장바구니
 	// 장바구니 담기
 	@GetMapping(value = "/move_to_cart")
 	public void move_to_cart(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		HttpSession session = request.getSession(true);
-		//세션 있는지 확인
+		// 세션 있는지 확인
 
 		List<CartDTO> cart_list = (List<CartDTO>) session.getAttribute("cart_list"); // Object 타입이므로 다운캐스팅
 		// 세션 중 cart_list 의 세션값 가져옴
@@ -424,10 +474,9 @@ public class MatkitController {
 		session.setAttribute("cart_list", cart_list);
 
 		response.sendRedirect("/cart_in");
-		
+
 		// 이 함수는 상품을 장바구니로 옮기는 작업을 한다.
 	}
-
 
 	// 장바구니 페이지 연결
 	@RequestMapping(value = "/cart_in", method = RequestMethod.GET)
@@ -439,7 +488,7 @@ public class MatkitController {
 			cart_list = new ArrayList<CartDTO>();
 		}
 		// 로그인값 없이 장바구니 접근시 예외처리
-		
+
 		model.addAttribute("cart_list", cart_list);
 		// model 로 값 넘겨준다
 
@@ -448,8 +497,8 @@ public class MatkitController {
 
 //	=======================================	
 
-	//결제
-	//페이지연결
+	// 결제
+	// 페이지연결
 	@PostMapping(value = "/pay")
 	public String pay() {
 		return "pay";
@@ -470,11 +519,11 @@ public class MatkitController {
 			// cart_list 안에 있는 상품들 각각 취급
 			int order_total = cart_item.getCart_cnt() * cart_item.getCart_price();
 			// 총 금액은 개수 * 가격
-			
+
 			orderDTO = new OrderDTO(cart_item.getCart_jpg(), cart_item.getCart_name(), member.getEmail(),
 					cart_item.getCart_price(), cart_item.getCart_cnt(), order_total);
 			// 주문내역에 추가할 객체 생성
-			
+
 			orderDAO.insert_order(orderDTO);
 			// 주문내역에 추가
 		} // 각각의 상품을 다 주문내역에 추가하려는 작업 반복중
@@ -488,7 +537,6 @@ public class MatkitController {
 		response.sendRedirect("/");
 	}
 
-	
 	// 결제가 실패했을시 처리
 	@GetMapping(value = "/pay_fail")
 	public void pay_fail(HttpServletResponse response) throws Exception {
@@ -499,7 +547,7 @@ public class MatkitController {
 	}
 
 //	=======================================	
-	
+
 	// 주문내역 확인 페이지 연결
 	@RequestMapping(value = "/order_check", method = RequestMethod.GET)
 	public String order_check(HttpSession session, Model model) {
@@ -515,9 +563,8 @@ public class MatkitController {
 		return "order_check";
 	}
 
-	
 //	=======================================
-	
+
 	// 장바구니 상품 삭제
 	@PostMapping(value = "/remove_cart_item")
 	public void remove_cart_item(HttpServletRequest request, HttpServletResponse response, HttpSession session)
@@ -541,8 +588,7 @@ public class MatkitController {
 
 		response.sendRedirect("/cart_in");
 	}
-	
-	
+
 	// 장바구니 비우기
 	@GetMapping(value = "/remove_cart")
 	public void remove_cart(HttpServletRequest request, HttpServletResponse response, HttpSession session)

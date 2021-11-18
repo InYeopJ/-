@@ -127,7 +127,7 @@
 	<div id="container" class="loginArea">
 		<form action="/login" method="post" class="loginForm">
 			<h5 class="page_title">LOGIN</h5>
-			<input type="text" name="id" class="id_class" id="id" placeholder="아이디" required value="<%=id%>"> 
+			<input type="email" name="id" class="id_class" id="id" placeholder="이메일" required value="<%=id%>"> 
 			<input type="password" name="passwd" class="pw_class" id="passwd" placeholder="비밀번호" required value="<%=pw%>">
 
 			<!-- 자동완성 -->
@@ -137,10 +137,10 @@
  -->
 			<input type="submit" class="loginBtn" id="login-btn" value="로그인">
 
-			<div class="find_idpw">
+<!-- 			<div class="find_idpw">
 				<a href="javascript:void(0)" class="find_id">아이디 찾기</a> 
 				<a href="javascript:void(0)" class="find_pw">비밀번호 찾기</a>
-			</div>
+			</div> -->
 			<a href="/join" class="joinBtn" id="join-btn">회원가입</a>
 
 		</form>

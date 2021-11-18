@@ -2,7 +2,7 @@ package com.sboot.matkit.member;
 
 public class MemberDTO {
 
-	private String id;
+	//private String id;
 	private String passwd;
 	private String name;
 	private String birthday;
@@ -10,30 +10,21 @@ public class MemberDTO {
 	private String address;
 	private String hp;
 
-	public MemberDTO(String id, String passwd) {
+	public MemberDTO(String email, String passwd) {
 		super();
-		this.id = id;
+		this.email = email;
 		this.passwd = passwd;
 	}
 
-	public MemberDTO(String id, String passwd, String name, String birthday, String email, String address,
+	public MemberDTO(String email, String passwd, String name, String birthday, String address,
 			String hp) {
 		super();
-		this.id = id;
 		this.passwd = passwd;
 		this.name = name;
 		this.birthday = birthday;
 		this.email = email;
 		this.address = address;
 		this.hp = hp;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
 	}
 
 	public String getPasswd() {
